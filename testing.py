@@ -1,5 +1,5 @@
 from datetime import datetime
-from iexfinance.stocks import Stock, get_historical_data, get_historical_intraday
+from iexfinance.stocks import Stock, get_historical_data, get_historical_intraday  #https://addisonlynch.github.io/iexfinance/devel/index.html
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
