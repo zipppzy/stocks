@@ -9,5 +9,24 @@ model.add(keras.layers.Dense(64, activation='relu'))
 model.add(keras.layers.Dense(64, activation='relu'))
 model.add(keras.layers.Dense(1, activation='softmax'))
 
-stk = Stock('TSLA')
-print(stk.get_price())
+#DESC:  returns an array of all the minute
+#       averages throughout the day
+#      -stk -> stock abbreiviation
+#      -key -> field of data i.e. average, high, low
+#      -day -> day of minute stock data
+def GetAverages(stk, key, day):
+    df = get_historical_intraday(stk, day)
+    data = []
+    for minAver in df:
+        data.append(minAver.get(key))
+    return data
+
+
+
+startDate = datetime(2018, 1, 27)
+endDate = datetime(2019, 3, 1)
+
+stk = 'AMZN'
+print(GetAverages(stk,"average", endDate))
+
+
