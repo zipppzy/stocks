@@ -9,9 +9,5 @@ model.add(keras.layers.Dense(64, activation='relu'))
 model.add(keras.layers.Dense(64, activation='relu'))
 model.add(keras.layers.Dense(1, activation='softmax'))
 
-
-
-
-
 stk = Stock('TSLA')
 print(stk.get_price())
