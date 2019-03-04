@@ -15,12 +15,11 @@ model.add(keras.layers.Dense(1, activation='softmax'))
 #      -key -> field of data i.e. average, high, low
 #      -day -> day of minute stock data
 def GetAverages(stk, key, day):
-    #Todo: rename list from averages
     df = get_historical_intraday(stk, day)
-    averages = []
+    data = []
     for minAver in df:
-        averages.append(minAver.get(key))
-    return averages
+        data.append(minAver.get(key))
+    return data
 
 
 
