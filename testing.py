@@ -21,7 +21,7 @@ def GetIntradayPrices(stk, key, day):
     return data
 
 # DESC:  returns an array of all the minutes in between startDate and endDate
-#      -stk -> stock abbreiviation
+#      -stk -> stock abbreviation
 #      -key -> field of data i.e. average, high, low
 #      -startDate -> first day to take stock data from
 #      -endDate -> last day to take stock data from
@@ -34,6 +34,14 @@ def GetMultipleIntradayData(stk, key, startDate, endDate):
         dateIncrement = dateIncrement+dayDelta
     return data
 
+# DESC:  replaces missing stock prices with averages of surrounding prices
+#      -data -> list of stock prices
+def fixData(data):
+    x = data
+    for i in range(len(x)):
+        if x[i] == -1:
+            x[i] = (x[i-1] + x[i+1])/2
+    return data
 
 
 startDate = datetime(2019, 1, 1)
@@ -43,7 +51,7 @@ stk = 'AMZN'
 # print(GetAverages(stk, "average", endDate))
 # print(len(GetAverages(stk, "average", endDate)))
 
-data = GetMultipleIntradayData(stk, "average", startDate, endDate)
+data = fixData(GetMultipleIntradayData(stk, "average", startDate, endDate))
 print(data)
 print(len(data))
 
