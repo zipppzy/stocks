@@ -14,7 +14,7 @@ model.add(keras.layers.Dense(1, activation='softmax'))
 #      -key -> field of data i.e. average, high, low
 #      -day -> day of minute stock data
 def GetIntradayPrices(stk, key, day):
-    df = get_historical_intraday(stk, day)
+    df = get_historical_intraday(stk, day, token="sk_290f4ad121254d7696a9a00c48748bb4")
     data = []
     for minAver in df:
         data.append(minAver.get(key))
@@ -39,19 +39,27 @@ def GetMultipleIntradayData(stk, key, startDate, endDate):
 def fixData(data):
     x = data
     for i in range(len(x)):
-        if x[i] == -1:
-            x[i] = (x[i-1] + x[i+1])/2
+        if x[i] is None:
+            noneCounter = 1
+            while x[i+noneCounter] is None:
+                noneCounter+=1
+            for j in range(i,i+noneCounter):
+                x[j] = (x[i-1] + x[i+noneCounter])/2
     return data
 
 
-startDate = datetime(2019, 1, 1)
-endDate = datetime(2019, 3, 1)
+startDate = datetime(2019, 6, 1)
+endDate = datetime(2019, 6, 7)
 
 stk = 'AMZN'
 # print(GetAverages(stk, "average", endDate))
 # print(len(GetAverages(stk, "average", endDate)))
-
-data = fixData(GetMultipleIntradayData(stk, "average", startDate, endDate))
+data = GetMultipleIntradayData(stk, "average", startDate, endDate)
+print(data)
+data = fixData(data)
 print(data)
 print(len(data))
+
+model.compile(optimizer='adam', loss=keras.losses.binary_crossentropy)
+
 
